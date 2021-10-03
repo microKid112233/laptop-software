@@ -72,12 +72,13 @@ input.onPinPressed(TouchPin.P0, function () {
     }
     if (pass__true == 0) {
         a = 1
-        Part_a = 1
-        if (check == 5) {
-            Part_a = 2
-        }
-        if (check == 9) {
-            Part_a = 3
+        if (_1rst == 1 && _2end == 1) {
+            _3ed = 0
+            I2C_LCD1602.ShowString("A", 2, 0)
+        } else {
+            I2C_LCD1602.clear()
+            I2C_LCD1602.ShowString("fail", 0, 0)
+            fail = 1
         }
     }
 })
@@ -192,12 +193,13 @@ input.onPinPressed(TouchPin.P2, function () {
     }
     if (pass__true == 0) {
         c = 1
-        Part_a = 3
-        if (check == 9) {
-            Part_a = 1
-        }
-        if (check == 9) {
-            Part_a = 1
+        _1rst = 1
+        if (_3ed == 0 && _2end == 0) {
+            I2C_LCD1602.ShowString("C", 0, 0)
+        } else {
+            I2C_LCD1602.clear()
+            I2C_LCD1602.ShowString("fail", 0, 0)
+            fail = 1
         }
     }
 })
@@ -272,12 +274,13 @@ input.onPinPressed(TouchPin.P1, function () {
     }
     if (pass__true == 0) {
         b = 1
-        Part_a = 2
-        if (check == 9) {
-            Part_a = 1
-        }
-        if (check == 9) {
-            Part_a = 3
+        if (_1rst == 1 && _3ed == 0) {
+            _2end = 1
+            I2C_LCD1602.ShowString("B", 1, 0)
+        } else {
+            I2C_LCD1602.clear()
+            I2C_LCD1602.ShowString("fail", 0, 0)
+            fail = 1
         }
     }
 })
@@ -296,11 +299,14 @@ timeanddate.onHourChanged(function () {
 let pass_order_2 = 0
 let pass_order_1 = 0
 let pass_order = 0
+let check = 0
 let b = 0
 let c = 0
 let month = 0
-let check = 0
-let Part_a = 0
+let fail = 0
+let _3ed = 0
+let _2end = 0
+let _1rst = 0
 let a = 0
 let app = 0
 let part = 0
@@ -348,29 +354,7 @@ basic.forever(function () {
         }
     }
     if (pass__true == 0) {
-        if (Part_a == 1) {
-            I2C_LCD1602.clear()
-            I2C_LCD1602.ShowString("A", 0, 0)
-            if (b == 1) {
-                I2C_LCD1602.ShowString("B", 1, 0)
-            }
-            if (c == 1) {
-                I2C_LCD1602.ShowString("C", 2, 0)
-            }
-        }
-        if (b == 1) {
-            I2C_LCD1602.ShowString("B", 0, 0)
-        }
-        if (Part_a == 2) {
-            I2C_LCD1602.clear()
-            I2C_LCD1602.ShowString("B", 0, 0)
-            if (a == 1) {
-                I2C_LCD1602.ShowString("A", 1, 0)
-            }
-            if (c == 1) {
-                I2C_LCD1602.ShowString("C", 2, 0)
-            }
-        }
+        let Part_a = 0
         if (Part_a == 3) {
             I2C_LCD1602.clear()
             I2C_LCD1602.ShowString("C", 0, 0)
@@ -387,7 +371,7 @@ basic.forever(function () {
                 pass_order_2 = 5
             }
         }
-        if (pass_order == 1 && (pass_order_1 == 3 && pass_order_2 == 5) && check == 8) {
+        if (_1rst == 1 && (_2end == 1 && _3ed == 1)) {
             I2C_LCD1602.clear()
             I2C_LCD1602.ShowString("passkey good", 0, 0)
             pass__true = 1
