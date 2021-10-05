@@ -7,7 +7,8 @@
         "microphone": "*",
         "i2cLCD1602": "github:makecode-extensions/i2clcd1602#v1.5.0",
         "microbit-pxt-timeanddate": "github:bsiever/microbit-pxt-timeanddate#v2.0.24",
-        "ds1307": "github:tinkertanker/pxt-realtimeclock-ds1307#cac7e9e8edf290e6f12cb3920f014c20d39feb58"
+        "ds1307": "github:tinkertanker/pxt-realtimeclock-ds1307#cac7e9e8edf290e6f12cb3920f014c20d39feb58",
+        "microturtle": "github:Microsoft/pxt-microturtle#v0.0.9"
     },
     "files": [
         "main.blocks",

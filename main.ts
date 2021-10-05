@@ -61,7 +61,7 @@ input.onPinPressed(TouchPin.P0, function () {
                 # . # . .
                 . # . . .
                 `)
-            radio.sendValue("torvan's laptop", 0)
+            radio.sendValue("torvan's pc", 0)
             radio.sendString("hi")
             basic.pause(500)
             basic.clearScreen()
@@ -71,14 +71,15 @@ input.onPinPressed(TouchPin.P0, function () {
         }
     }
     if (pass__true == 0) {
-        a = 1
-        if (_1rst == 1 && _2end == 1) {
+        if (_1rst == 1 && (_1rst == 1 && _3ed == 0)) {
+            a = 1
             _3ed = 1
             I2C_LCD1602.ShowString("A", 2, 0)
         } else {
             I2C_LCD1602.clear()
             I2C_LCD1602.ShowString("fail", 0, 0)
             fail = 1
+            I2C_LCD1602.clear()
         }
     }
 })
@@ -109,24 +110,32 @@ input.onPinPressed(TouchPin.P2, function () {
             }
             if (part == 1) {
                 I2C_LCD1602.clear()
-                I2C_LCD1602.ShowString("texting app", 0, 0)
+                I2C_LCD1602.ShowString(" > texting app <", 0, 0)
+                I2C_LCD1602.ShowString("     clock", 0, 1)
             }
             if (part == 2) {
                 I2C_LCD1602.clear()
-                I2C_LCD1602.ShowString("clock", 0, 0)
+                I2C_LCD1602.ShowString("   > clock <", 0, 0)
+                I2C_LCD1602.ShowString("    torvan pass", 0, 1)
             }
             if (part == 3) {
                 I2C_LCD1602.clear()
-                I2C_LCD1602.ShowString("torvan pass", 0, 0)
+                I2C_LCD1602.ShowString("> torvan pass <", 0, 0)
+                I2C_LCD1602.ShowString("    off/on mode", 0, 1)
             }
             if (part == 4) {
                 I2C_LCD1602.clear()
-                I2C_LCD1602.ShowString("off/on mode", 0, 0)
+                I2C_LCD1602.ShowString("> off/on mode <", 0, 0)
+                I2C_LCD1602.ShowString("     1 to 10", 0, 1)
             }
             if (part == 5) {
                 I2C_LCD1602.clear()
-                I2C_LCD1602.ShowString("1 to 10", 0, 0)
+                I2C_LCD1602.ShowString("   > 1 to 10 <", 0, 0)
+                I2C_LCD1602.ShowString("   texting app", 0, 1)
             }
+        }
+        if (app == 6) {
+            turtle.setPosition(0, 1)
         }
         if (app == 5) {
             if (randint(1, 10) == 1) {
@@ -192,9 +201,15 @@ input.onPinPressed(TouchPin.P2, function () {
         }
     }
     if (pass__true == 0) {
-        c = 1
         _1rst = 1
+        if (_1rst == 1 && (_2end == 1 && (_3ed == 1 && (a == 1 && (b == 1 && c == 1))))) {
+            I2C_LCD1602.clear()
+            I2C_LCD1602.ShowString("passkey good", 0, 0)
+            pass__true = 1
+            I2C_LCD1602.LcdInit(0)
+        }
         if (_3ed == 0 && _2end == 0 && _1rst == 1) {
+            c = 1
             I2C_LCD1602.ShowString("C", 0, 0)
         } else {
             I2C_LCD1602.clear()
@@ -204,20 +219,22 @@ input.onPinPressed(TouchPin.P2, function () {
     }
 })
 timeanddate.onMinuteChanged(function () {
-    if (pass__true == 1) {
-        minute += 1
-    }
+    minute += 1
 })
 radio.onReceivedString(function (receivedString) {
     if (pass__true == 1) {
+        I2C_LCD1602.clear()
         I2C_LCD1602.ShowString(receivedString, 0, 1)
         if (radio.receivedPacket(RadioPacketProperty.SignalStrength) == 1) {
+            I2C_LCD1602.clear()
             I2C_LCD1602.ShowNumber(1, 14, 1)
         }
         if (radio.receivedPacket(RadioPacketProperty.SignalStrength) == 50) {
+            I2C_LCD1602.clear()
             I2C_LCD1602.ShowNumber(50, 14, 1)
         }
         if (radio.receivedPacket(RadioPacketProperty.SignalStrength) == 100) {
+            I2C_LCD1602.clear()
             I2C_LCD1602.ShowNumber(100, 14, 1)
         }
         basic.pause(10000)
@@ -284,8 +301,14 @@ input.onPinPressed(TouchPin.P1, function () {
         }
     }
     if (pass__true == 0) {
-        b = 1
-        if (_1rst == 1 && _3ed == 0) {
+        if (_1rst == 1 && (_2end == 1 && (_3ed == 1 && (a == 1 && (b == 1 && c == 1))))) {
+            I2C_LCD1602.clear()
+            I2C_LCD1602.ShowString("passkey good", 0, 0)
+            pass__true = 1
+            I2C_LCD1602.LcdInit(0)
+        }
+        if (_1rst == 1 && _3ed == 0 && _2end == 0) {
+            b = 1
             _2end = 1
             I2C_LCD1602.ShowString("B", 1, 0)
         } else {
@@ -300,11 +323,6 @@ radio.onReceivedValue(function (name, value) {
         I2C_LCD1602.ShowString(name, 0, 0)
         basic.pause(10000)
         I2C_LCD1602.clear()
-    }
-})
-timeanddate.onHourChanged(function () {
-    if (pass__true == 1) {
-        hour += 1
     }
 })
 let pass_order_2 = 0
@@ -330,6 +348,11 @@ a = 0
 b = 0
 c = 0
 pass__true = 0
+let second = 0
+let minute = 9
+let hour = 10
+part = 0
+pass__true = 50
 for (let index = 0; index < 2; index++) {
     I2C_LCD1602.clear()
     I2C_LCD1602.ShowString("micro pc is", 0, 0)
@@ -345,15 +368,11 @@ for (let index = 0; index < 2; index++) {
     I2C_LCD1602.ShowString("starting...", 0, 1)
     basic.pause(500)
 }
-pass__true = 1
+pass__true = 0
 I2C_LCD1602.on()
 I2C_LCD1602.LcdInit(0)
 I2C_LCD1602.ShowString("password", 0, 1)
 radio.setGroup(1)
-let second = 0
-let minute = 9
-let hour = 10
-part = 0
 basic.pause(100)
 basic.forever(function () {
     if (pass__true == 1) {
@@ -383,11 +402,27 @@ basic.forever(function () {
             }
         }
     }
-    if (pass__true == 1) {
+    if (pass__true == 50) {
+    	
+    }
+    if (minute == 60) {
+        minute += -60
+        hour += 1
+    }
+    if (hour == 13) {
+        hour += -12
+    }
+    if (app == 6) {
+    	
+    }
+})
+loops.everyInterval(100, function () {
+    if (pass__true == 0) {
         if (_1rst == 1 && (_2end == 1 && (_3ed == 1 && (a == 1 && (b == 1 && c == 1))))) {
             I2C_LCD1602.clear()
             I2C_LCD1602.ShowString("passkey good", 0, 0)
             pass__true = 1
+            I2C_LCD1602.LcdInit(0)
         }
     }
 })
